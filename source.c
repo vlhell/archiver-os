@@ -78,12 +78,7 @@ void make_dirs(char *dir, mode_t mode)
 
 int create_path(char *path, mode_t mode)
 {
-	char *dir = calloc(strlen(path) + 1, 1);
-
-	strcpy(dir, path);
-	dirname(dir);
-	make_dirs(dir, mode);
-	free(dir);
+	make_dirs(path, mode);
 	return creat(path, mode);
 }
 
