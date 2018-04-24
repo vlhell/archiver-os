@@ -59,20 +59,26 @@ void go_go(char *root_path, char *path, int fd)
 	closedir(dir);
 }
 
-void make_dirs(char *dir, mode_t mode)
+void make_dirs(char *path, mode_t mode)
 {
-	size_t len = strlen(dir);
-	char *dir_temp = calloc(len + 1, 1);
+	size_t len = strlen(path);
+	char *path_temp = strdup(path);
 
-	strcpy(dir_temp, dir);
-	for (size_t i = 0; i <= len; i++) {
-		if (dir_temp[i] == '/') {
-			dir_temp[i] = 0;
-			mkdir(dir_temp, mode);
-			dir_temp[i] = '/';
+	// path not may be less than 1 char
+	size_t offset = 1;
+
+	// check such paths as ./a/b/c/d
+	if (strncmp(path_temp, "./", 2) == 0)
+		offset = 2;
+
+	for (size_t i = offset; i < len; i++) {
+		if (path_temp[i] == '/') {
+			path_temp[i] = 0;
+			mkdir(path_temp, mode);
+			path_temp[i] = '/';
 		}
 	}
-	free(dir_temp);
+	free(path_temp);
 }
 
 int create_path(char *path, mode_t mode)
