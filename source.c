@@ -72,7 +72,6 @@ void make_dirs(char *dir, mode_t mode)
 			dir_temp[i] = '/';
 		}
 	}
-	mkdir(dir_temp, mode);
 	free(dir_temp);
 }
 
